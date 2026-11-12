@@ -1,0 +1,198 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no, viewport-fit=cover">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<meta name="apple-mobile-web-app-title" content="Теория углов">
+<meta name="theme-color" content="#0a1f33">
+<link rel="manifest" href="manifest.json">
+<link rel="apple-touch-icon" href="icons/icon-192.png">
+<title>Теория углов в теннисе</title>
+<style>
+*{box-sizing:border-box}
+html,body{margin:0;padding:0;background:#0a1f33;color:#e9eef2;font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Helvetica,Arial,sans-serif;min-height:100vh}
+.wrap{max-width:480px;margin:0 auto;padding:max(12px,env(safe-area-inset-top)) 12px max(16px,env(safe-area-inset-bottom))}
+.hint{font-size:13px;color:#9fb3c8;text-align:center;margin:0 0 8px}
+.modes{display:flex;justify-content:center;gap:8px;margin-bottom:8px}
+.modes button{padding:6px 14px;border-radius:16px;border:1px solid rgba(255,255,255,.35);background:transparent;color:#cfe0ee;font-size:13px;cursor:pointer}
+svg{width:100%;max-width:300px;display:block;margin:0 auto;touch-action:none;background:#0b3d68;border-radius:12px}
+.legend{display:flex;justify-content:center;gap:14px;margin-top:8px;font-size:11px;color:#9fb3c8;flex-wrap:wrap}
+.dot{display:inline-block;width:9px;height:9px;border-radius:50%;margin-right:5px}
+.bar{display:inline-block;width:9px;height:5px;margin-right:5px;vertical-align:middle;background:#fac775}
+</style>
+</head>
+<body>
+<div class="wrap">
+<div class="hint">Перетащите красную ракетку — она покажет, откуда бьёт соперник</div>
+<div class="modes">
+<button id="btnRally" type="button">Розыгрыш</button>
+<button id="btnServe" type="button">Подача</button>
+</div>
+<svg id="court" viewBox="0 0 285 497">
+<text x="142.275" y="35" text-anchor="middle" font-size="12" font-weight="700" letter-spacing="2" fill="#ffffff" opacity="0.35" transform="rotate(180 142.275 35)">GRAND SLAM</text>
+<text x="142.275" y="463" text-anchor="middle" font-size="12" font-weight="700" letter-spacing="2" fill="#ffffff" opacity="0.35">GRAND SLAM</text>
+<rect x="60" y="70" width="164.55" height="356.55" fill="#1f75b3" stroke="#ffffff" stroke-width="1.8"/>
+<line x1="80.55" y1="70" x2="80.55" y2="426.55" stroke="#ffffff" stroke-width="1.4"/>
+<line x1="204" y1="70" x2="204" y2="426.55" stroke="#ffffff" stroke-width="1.4"/>
+<line x1="80.55" y1="152.275" x2="204" y2="152.275" stroke="#ffffff" stroke-width="1.1"/>
+<line x1="80.55" y1="344.275" x2="204" y2="344.275" stroke="#ffffff" stroke-width="1.1"/>
+<line x1="142.275" y1="152.275" x2="142.275" y2="344.275" stroke="#ffffff" stroke-width="1.1"/>
+<line x1="142.275" y1="70" x2="142.275" y2="78" stroke="#ffffff" stroke-width="1.1"/>
+<line x1="142.275" y1="418.55" x2="142.275" y2="426.55" stroke="#ffffff" stroke-width="1.1"/>
+<g id="net">
+<rect x="55" y="244.275" width="174" height="8" fill="#e9eef2" opacity="0.92"/>
+<line x1="55" y1="252.275" x2="229" y2="252.275" stroke="#04213a" stroke-width="1" opacity="0.45"/>
+<g stroke="#8b98a3" stroke-width="0.5" opacity="0.6">
+<path d="M63,244.275 L67,252.275"/><path d="M76,244.275 L80,252.275"/><path d="M89,244.275 L93,252.275"/><path d="M102,244.275 L106,252.275"/><path d="M115,244.275 L119,252.275"/><path d="M128,244.275 L132,252.275"/><path d="M141,244.275 L145,252.275"/><path d="M154,244.275 L158,252.275"/><path d="M167,244.275 L171,252.275"/><path d="M180,244.275 L184,252.275"/><path d="M193,244.275 L197,252.275"/><path d="M206,244.275 L210,252.275"/><path d="M219,244.275 L223,252.275"/>
+<line x1="55" y1="246.275" x2="229" y2="246.275"/><line x1="55" y1="248.275" x2="229" y2="248.275"/><line x1="55" y1="250.275" x2="229" y2="250.275"/>
+</g>
+<line x1="55" y1="244.275" x2="229" y2="244.275" stroke="#04213a" stroke-width="1.4"/>
+<rect x="51" y="240.275" width="4" height="16" rx="1" fill="#2c2c2a"/>
+<rect x="229" y="240.275" width="4" height="16" rx="1" fill="#2c2c2a"/>
+</g>
+<g id="ballkidPads" transform="translate(35,248.275)">
+<rect x="-3.5" y="-13" width="7" height="10" rx="1.5" fill="#2f6fae" stroke="#ffffff" stroke-width="0.8"/>
+<rect x="-3.5" y="1" width="7" height="10" rx="1.5" fill="#2f6fae" stroke="#ffffff" stroke-width="0.8"/>
+</g>
+<polygon id="zone" points="0,0 0,0 0,0 0,0 0,0" fill="#fac775" fill-opacity="0.2"/>
+<path id="lineBL" d="M0,0 L0,0" fill="none" stroke="#fac775" stroke-width="1.3"/>
+<path id="lineBR" d="M0,0 L0,0" fill="none" stroke="#fac775" stroke-width="1.3"/>
+<g id="ballsBL"><circle r="3" fill="#dcee34" stroke="#7a8f00" stroke-width="0.4"/><circle r="3" fill="#dcee34" stroke="#7a8f00" stroke-width="0.4"/><circle r="3" fill="#dcee34" stroke="#7a8f00" stroke-width="0.4"/><circle r="3" fill="#dcee34" stroke="#7a8f00" stroke-width="0.4"/><circle r="3" fill="#dcee34" stroke="#7a8f00" stroke-width="0.4"/><circle r="3" fill="#dcee34" stroke="#7a8f00" stroke-width="0.4"/><circle r="3" fill="#dcee34" stroke="#7a8f00" stroke-width="0.4"/></g>
+<g id="ballsBR"><circle r="3" fill="#dcee34" stroke="#7a8f00" stroke-width="0.4"/><circle r="3" fill="#dcee34" stroke="#7a8f00" stroke-width="0.4"/><circle r="3" fill="#dcee34" stroke="#7a8f00" stroke-width="0.4"/><circle r="3" fill="#dcee34" stroke="#7a8f00" stroke-width="0.4"/><circle r="3" fill="#dcee34" stroke="#7a8f00" stroke-width="0.4"/><circle r="3" fill="#dcee34" stroke="#7a8f00" stroke-width="0.4"/><circle r="3" fill="#dcee34" stroke="#7a8f00" stroke-width="0.4"/></g>
+<line id="bisector" x1="0" y1="0" x2="0" y2="0" stroke="#ffffff" stroke-width="1.3" stroke-dasharray="5 4"/>
+<g id="player" transform="translate(0,0)">
+<ellipse cx="5" cy="24" rx="3.5" ry="5.5" fill="#02101c" opacity="0.3" transform="rotate(12 5 24)"/>
+<ellipse cx="-6" cy="27" rx="3.5" ry="5.5" fill="#02101c" opacity="0.3" transform="rotate(-10 -6 27)"/>
+<g transform="rotate(12)">
+<ellipse cx="0" cy="0" rx="6" ry="9" fill="#378ADD" stroke="#ffffff" stroke-width="1.4"/>
+<g stroke="#eaf3fb" stroke-width="0.4" opacity="0.7">
+<line x1="-3" y1="-7" x2="-3" y2="7"/><line x1="0" y1="-8.5" x2="0" y2="8.5"/><line x1="3" y1="-7" x2="3" y2="7"/>
+<line x1="-4.5" y1="-4" x2="4.5" y2="-4"/><line x1="-5" y1="0" x2="5" y2="0"/><line x1="-4.5" y1="4" x2="4.5" y2="4"/>
+</g>
+<rect x="-1.3" y="9" width="2.6" height="15" rx="1.3" fill="#2b2f33" stroke="#ffffff" stroke-width="0.5"/>
+<line x1="-1.3" y1="13" x2="1.3" y2="13" stroke="#ffffff" stroke-width="0.4" opacity="0.6"/>
+<line x1="-1.3" y1="17" x2="1.3" y2="17" stroke="#ffffff" stroke-width="0.4" opacity="0.6"/>
+<line x1="-1.3" y1="21" x2="1.3" y2="21" stroke="#ffffff" stroke-width="0.4" opacity="0.6"/>
+</g>
+</g>
+<g id="opponent" transform="translate(130,150)" style="cursor:grab;">
+<ellipse cx="5" cy="-24" rx="3.5" ry="5.5" fill="#02101c" opacity="0.3" transform="rotate(-12 5 -24)"/>
+<ellipse cx="-6" cy="-27" rx="3.5" ry="5.5" fill="#02101c" opacity="0.3" transform="rotate(10 -6 -27)"/>
+<g transform="rotate(12)">
+<ellipse cx="0" cy="0" rx="6" ry="9" fill="#E24B4A" stroke="#ffffff" stroke-width="1.4"/>
+<g stroke="#fdeceb" stroke-width="0.4" opacity="0.7">
+<line x1="-3" y1="-7" x2="-3" y2="7"/><line x1="0" y1="-8.5" x2="0" y2="8.5"/><line x1="3" y1="-7" x2="3" y2="7"/>
+<line x1="-4.5" y1="-4" x2="4.5" y2="-4"/><line x1="-5" y1="0" x2="5" y2="0"/><line x1="-4.5" y1="4" x2="4.5" y2="4"/>
+</g>
+<rect x="-1.3" y="-24" width="2.6" height="15" rx="1.3" fill="#2b2f33" stroke="#ffffff" stroke-width="0.5"/>
+<line x1="-1.3" y1="-20" x2="1.3" y2="-20" stroke="#ffffff" stroke-width="0.4" opacity="0.6"/>
+<line x1="-1.3" y1="-16" x2="1.3" y2="-16" stroke="#ffffff" stroke-width="0.4" opacity="0.6"/>
+<line x1="-1.3" y1="-12" x2="1.3" y2="-12" stroke="#ffffff" stroke-width="0.4" opacity="0.6"/>
+</g>
+</g>
+</svg>
+<div class="legend">
+<span><span class="dot" style="background:#E24B4A"></span>соперник</span>
+<span><span class="dot" style="background:#378ADD"></span>ваша позиция</span>
+<span><span class="bar"></span>зона приёма</span>
+</div>
+</div>
+<script src="https://telegram.org/js/telegram-web-app.js"></script>
+<script>
+(function(){
+if(window.Telegram&&Telegram.WebApp){Telegram.WebApp.ready();Telegram.WebApp.expand();}
+if('serviceWorker' in navigator&&location.protocol.indexOf('http')===0){navigator.serviceWorker.register('sw.js').catch(function(){});}
+var svg=document.getElementById('court');
+var opponent=document.getElementById('opponent');
+var player=document.getElementById('player');
+var lineBL=document.getElementById('lineBL');
+var lineBR=document.getElementById('lineBR');
+var zone=document.getElementById('zone');
+var bisector=document.getElementById('bisector');
+var ballsBL=Array.prototype.slice.call(document.getElementById('ballsBL').children);
+var ballsBR=Array.prototype.slice.call(document.getElementById('ballsBR').children);
+var btnRally=document.getElementById('btnRally');
+var btnServe=document.getElementById('btnServe');
+var leftSinglesX=80.55,rightSinglesX=204,centerX=142.275;
+var topBaselineY=70,bottomBaselineY=426.55;
+var netY=248.275,bottomServiceLineY=344.275;
+var NET_MARGIN_RALLY=22.5,NET_MARGIN_SERVE=45;
+var VIEW_W=285,VIEW_BOTTOM=491;
+var mode='rally';
+var px=130,py=150;
+function norm(x,y){var d=Math.hypot(x,y);return [x/d,y/d];}
+function placeBalls(arr,sx,sy,ex,ey){
+var dx=ex-sx,dy=ey-sy,len=Math.hypot(dx,dy);
+var ux=dx/len,uy=dy/len;
+var startOffset=28,spacing=48;
+for(var i=0;i<arr.length;i++){
+var d=startOffset+i*spacing;
+if(d<len-8){arr[i].setAttribute('cx',sx+ux*d);arr[i].setAttribute('cy',sy+uy*d);arr[i].style.display='';}
+else{arr[i].style.display='none';}
+}
+}
+function update(){
+var NET_MARGIN=mode==='rally'?NET_MARGIN_RALLY:NET_MARGIN_SERVE;
+var touchY=netY+NET_MARGIN;
+var zoneLeftX,zoneRightX,zoneFarY;
+if(mode==='rally'){zoneLeftX=leftSinglesX;zoneRightX=rightSinglesX;zoneFarY=bottomBaselineY;}
+else{
+if(px<centerX){zoneLeftX=centerX;zoneRightX=rightSinglesX;}else{zoneLeftX=leftSinglesX;zoneRightX=centerX;}
+zoneFarY=bottomServiceLineY;
+}
+var v1=norm(zoneLeftX-px,touchY-py);
+var v2=norm(zoneRightX-px,touchY-py);
+var bx=v1[0]+v2[0],by=v1[1]+v2[1];
+var bd=Math.hypot(bx,by);bx/=bd;by/=bd;
+var t=(bottomBaselineY-py)/by;
+var plX=px+bx*t,plY=bottomBaselineY;
+plX=Math.max(5,Math.min(VIEW_W-5,plX));
+var eBLx=px+v1[0]*(VIEW_BOTTOM-py)/v1[1];
+var eBRx=px+v2[0]*(VIEW_BOTTOM-py)/v2[1];
+opponent.setAttribute('transform','translate('+px+','+py+')');
+player.setAttribute('transform','translate('+plX+','+plY+')');
+lineBL.setAttribute('d','M '+px+','+py+' L '+eBLx+','+VIEW_BOTTOM);
+lineBR.setAttribute('d','M '+px+','+py+' L '+eBRx+','+VIEW_BOTTOM);
+zone.setAttribute('points',px+','+py+' '+zoneLeftX+','+touchY+' '+zoneLeftX+','+zoneFarY+' '+zoneRightX+','+zoneFarY+' '+zoneRightX+','+touchY);
+bisector.setAttribute('x1',px);bisector.setAttribute('y1',py);
+bisector.setAttribute('x2',plX);bisector.setAttribute('y2',plY);
+placeBalls(ballsBL,px,py,eBLx,VIEW_BOTTOM);
+placeBalls(ballsBR,px,py,eBRx,VIEW_BOTTOM);
+}
+function setPos(x,y){
+if(mode==='serve'){px=Math.max(leftSinglesX,Math.min(rightSinglesX,x));py=topBaselineY-10;}
+else{px=Math.max(5,Math.min(VIEW_W-5,x));py=Math.max(5,Math.min(netY-5,y));}
+update();
+}
+function styles(){
+[[btnRally,'rally'],[btnServe,'serve']].forEach(function(p){
+var on=mode===p[1];
+p[0].style.background=on?'#378ADD':'transparent';
+p[0].style.color=on?'#fff':'#cfe0ee';
+p[0].style.borderColor=on?'#378ADD':'rgba(255,255,255,0.35)';
+});
+}
+function setMode(m){
+mode=m;styles();
+if(m==='serve'){px=Math.max(leftSinglesX,Math.min(rightSinglesX,px));py=topBaselineY-10;}
+update();
+}
+function svgPoint(e){
+var r=svg.getBoundingClientRect(),vb=svg.viewBox.baseVal;
+return [(e.clientX-r.left)/r.width*vb.width,(e.clientY-r.top)/r.height*vb.height];
+}
+var dragging=false;
+svg.addEventListener('pointerdown',function(e){dragging=true;var p=svgPoint(e);setPos(p[0],p[1]);e.preventDefault();});
+svg.addEventListener('pointermove',function(e){if(!dragging)return;var p=svgPoint(e);setPos(p[0],p[1]);e.preventDefault();});
+svg.addEventListener('pointerup',function(){dragging=false;});
+svg.addEventListener('pointerleave',function(){dragging=false;});
+btnRally.addEventListener('click',function(){setMode('rally');});
+btnServe.addEventListener('click',function(){setMode('serve');});
+setMode('rally');
+})();
+</script>
+</body>
+</html>
