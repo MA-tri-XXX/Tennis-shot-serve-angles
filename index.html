@@ -128,7 +128,8 @@ else{arr[i].style.display='none';}
 }
 function exitPoint(u){var t=Infinity;if(u[1]>0)t=Math.min(t,(VIEW_H-py)/u[1]);if(u[0]>0)t=Math.min(t,(VIEW_W-px)/u[0]);if(u[0]<0)t=Math.min(t,(0-px)/u[0]);return [px+u[0]*t,py+u[1]*t];}
 function update(){
-var NET_MARGIN=mode==='rally'?NET_MARGIN_RALLY:NET_MARGIN_SERVE;
+// В розыгрыше отступ растёт линейно с расстоянием соперника от сетки: у сетки ×1, на задней линии ×2, дальше — пропорционально
+var NET_MARGIN=mode==='rally'?NET_MARGIN_RALLY*(1+Math.max(0,netY-py)/(netY-topBaselineY)):NET_MARGIN_SERVE;
 var touchY=netY+NET_MARGIN;
 var zoneLeftX,zoneRightX,zoneFarY;
 if(mode==='rally'){zoneLeftX=leftSinglesX;zoneRightX=rightSinglesX;zoneFarY=bottomBaselineY;}
